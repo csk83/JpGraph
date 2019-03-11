@@ -19,7 +19,7 @@ require_once('jpgraph_theme.inc.php');
 require_once('gd_image.inc.php');
 
 // Version info
-define('JPG_VERSION','4.2.5');
+define('JPG_VERSION','4.2.6');
 
 // Minimum required PHP version
 define('MIN_PHPVERSION','5.1.0');
@@ -1569,8 +1569,10 @@ class Graph {
             foreach( $this->y2plots as $p ) {
                 list($xmin,$ymin) = $p->Min();
                 list($xmax,$ymax) = $p->Max();
-                $min = Min($xmin,$min);
-                $max = Max($xmax,$max);
+                if( $xmin !== null && $xmax !== null ) {
+                    $min = Min($xmin, $min);
+                    $max = Max($xmax, $max);
+                }
             }
         }
 
@@ -1580,8 +1582,10 @@ class Graph {
                 foreach( $this->ynplots[$i] as $p ) {
                     list($xmin,$ymin) = $p->Min();
                     list($xmax,$ymax) = $p->Max();
-                    $min = Min($xmin,$min);
-                    $max = Max($xmax,$max);
+                    if( $xmin !== null && $xmax !== null ) {
+                        $min = Min($xmin, $min);
+                        $max = Max($xmax, $max);
+                    }
                 }
             }
         }
