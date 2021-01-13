@@ -5569,7 +5569,7 @@ class Plot {
 
     function Clear() {
         $this->isRunningClear = true;
-        Plot::__construct($this->inputValues['aDatay'], $this->inputValues['aDatax']);
+        $this->__construct($this->inputValues['aDatay'], $this->inputValues['aDatax']);
         $this->isRunningClear = false;
     }
 
