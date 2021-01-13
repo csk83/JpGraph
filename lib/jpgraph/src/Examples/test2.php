@@ -1,18 +1,39 @@
-<?php // content="text/plain; charset=utf-8"
+<?php
 
-function DashedLine($x1,$y1,$x2,$y2,$dash_length=1,$dash_space=4) {
-    $im  = imagecreatetruecolor(300, 300);
-    $w   = imagecolorallocate($im, 255, 255, 255);
+require_once("jpgraph/jpgraph.php");
+require_once("jpgraph/jpgraph_bar.php");
 
-    $style = array_fill(0,$dash_length,$w);
-    $style = array_pad($style,$dash_space,IMG_COLOR_TRANSPARENT);
-    imagesetstyle($im, $style);
-    imageline($im, $x1, $y1, $x2, $y2, IMG_COLOR_STYLED);
+// We need some data
+$datay=array(4,''); // this works and displays graph OK
+//$datay=array(4); // this fails with error message JPGraph Error: 25068
 
-    imagejpeg($im);
-    imagedestroy($im);
-}
+// Setup the graph.
+$graph = new Graph(200,400);
+$graph->SetScale("textlin");
+$graph->img->SetMargin(30,30,30,80); // needed to fix a PHP error of too few arguments
 
-header("Content-type: image/jpeg");
-DashedLine(30, 20, 100, 150, 5, 10);
+$graph->title->Set('"GRAD_MIDVER"');
+$graph->title->SetColor('darkred');
+
+// Setup font for axis
+$graph->xaxis->SetFont(FF_FONT1);
+$graph->yaxis->SetFont(FF_FONT1);
+//$graph->xaxis->SetTickLabels(array('05000DPF', '05000ESP'));
+$graph->xaxis->SetTickLabel(array('05000DPF', '05000ESP'));
+$graph->xaxis->SetLabelAngle('90');
+
+// Create the bar pot
+$bplot = new BarPlot($datay);
+//$bplot->SetWidth(0.6);
+$bplot->Clear();
+
+// Setup color for gradient fill style
+$bplot->SetFillGradient("navy","lightsteelblue",GRAD_MIDVER);
+
+// Set color for the frame of each bar
+$bplot->SetColor("navy");
+$graph->Add($bplot);
+
+// Finally send the graph to the browser
+$graph->Stroke();
 ?>
