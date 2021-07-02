@@ -10,7 +10,9 @@
             "name": "JpGraph team"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-gd": "*"
+    },
     "autoload": {
         "classmap": ["lib/JpGraph.php"]
     }
